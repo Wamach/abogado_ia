@@ -1,0 +1,31 @@
+# Servidor web y API
+fastapi==0.104.1
+uvicorn==0.24.0
+pydantic==2.5.0
+pydantic[email]
+python-multipart==0.0.6
+
+# Base de datos
+sqlite-utils==3.35.2
+
+# Solicitudes HTTP para webhooks
+requests==2.31.0
+
+# Machine Learning para predicción de sentencias
+scikit-learn==1.3.2
+pandas==2.1.4
+numpy==1.25.2
+joblib==1.3.2
+
+# Procesamiento de texto y NLP
+transformers==4.36.0
+torch==2.1.0
+tokenizers==0.15.0
+
+# IA y Gradio para Etapa 2
+gradio==4.8.0
+huggingface-hub==0.19.4
+
+# Utilidades
+python-dotenv==1.0.0
+cryptography==41.0.8

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Despacho Jurídico Virtual</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --dark-color: #34495e;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .dashboard-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px 0;
+        }
+
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin: 0 auto 20px;
+        }
+
+        .icon-chatbot { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); }
+        .icon-prediction { background: linear-gradient(135deg, var(--warning-color), #e67e22); }
+        .icon-ai { background: linear-gradient(135deg, var(--success-color), #2ecc71); }
+        .icon-webhook { background: linear-gradient(135deg, var(--danger-color), #c0392b); }
+        .icon-docs { background: linear-gradient(135deg, var(--dark-color), #2c3e50); }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-online { background: var(--success-color); }
+        .status-offline { background: var(--danger-color); }
+        .status-loading { background: var(--warning-color); animation: pulse 2s infinite; }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .btn-service {
+            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        .btn-service:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+            color: white;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .quick-actions {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .log-container {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .navbar-custom {
+            background: rgba(44, 62, 80, 0.9) !important;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-tachometer-alt me-2"></i>
+                Panel de Control - Despacho Jurídico
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="index.html">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="padding-top: 80px;">
+        <div class="row">
+            <div class="col-12">
+                <div class="dashboard-container">
+                    <!-- Header -->
+                    <div class="dashboard-header">
+                        <h1><i class="fas fa-cogs"></i> Panel de Control del Sistema</h1>
+                        <p class="mb-0">Gestión centralizada de todos los servicios del despacho jurídico virtual</p>
+                    </div>
+
+                    <div class="container p-4">
+                        <!-- Estado de Servicios -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h3><i class="fas fa-server me-2"></i>Estado de Servicios</h3>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Chatbot Offline -->
+                            <div class="col-lg-3 col-md-6">
+                                <div class="service-card text-center">
+                                    <div class="service-icon icon-chatbot">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <h5>Chatbot Offline</h5>
+                                    <p class="text-muted">Puerto 8000</p>
+                                    <div class="mb-3">
+                                        <span class="status-indicator status-loading" id="status-chatbot"></span>
+                                        <span id="status-text-chatbot">Verificando...</span>
+                                    </div>
+                                    <button class="btn btn-service" onclick="openService('http://localhost:8000/docs')">
+                                        <i class="fas fa-external-link-alt me-2"></i>Ver API
+                                    </button>
+                                    <button class="btn btn-service" onclick="testService('chatbot')">
+                                        <i class="fas fa-vial me-2"></i>Probar Servicio
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Predicción IA -->
+                            <div class="col-lg-3 col-md-6">
+                                <div class="service-card text-center">
+                                    <div class="service-icon icon-prediction">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <h5>Predicción de Sentencias</h5>
+                                    <p class="text-muted">Puerto 8003</p>
+                                    <div class="mb-3">
+                                        <span class="status-indicator status-loading" id="status-prediction"></span>
+                                        <span id="status-text-prediction">Verificando...</span>
+                                    </div>
+                                    <button class="btn btn-service" onclick="openService('prediction.html')">
+                                        <i class="fas fa-magic me-2"></i>Usar Predicción
+                                    </button>
+                                    <button class="btn btn-service" onclick="testService('prediction')">
+                                        <i class="fas fa-vial me-2"></i>Probar Servicio
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Sistema IA Legal -->
+                            <div class="col-lg-3 col-md-6">
+                                <div class="service-card text-center">
+                                    <div class="service-icon icon-ai">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <h5>Sistema IA Legal</h5>
+                                    <p class="text-muted">Puerto 7860</p>
+                                    <div class="mb-3">
+                                        <span class="status-indicator status-loading" id="status-gradio"></span>
+                                        <span id="status-text-gradio">Verificando...</span>
+                                    </div>
+                                    <button class="btn btn-service" onclick="openService('http://localhost:7860')">
+                                        <i class="fas fa-brain me-2"></i>Abrir Gradio
+                                    </button>
+                                    <button class="btn btn-service" onclick="testService('gradio')">
+                                        <i class="fas fa-vial me-2"></i>Probar Servicio
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Webhooks -->
+                            <div class="col-lg-3 col-md-6">
+                                <div class="service-card text-center">
+                                    <div class="service-icon icon-webhook">
+                                        <i class="fas fa-plug"></i>
+                                    </div>
+                                    <h5>Webhooks</h5>
+                                    <p class="text-muted">Puerto 8002</p>
+                                    <div class="mb-3">
+                                        <span class="status-indicator status-loading" id="status-webhook"></span>
+                                        <span id="status-text-webhook">Verificando...</span>
+                                    </div>
+                                    <button class="btn btn-service" onclick="openService('http://localhost:8002/webhook/stats')">
+                                        <i class="fas fa-chart-bar me-2"></i>Ver Estadísticas
+                                    </button>
+                                    <button class="btn btn-service" onclick="testService('webhook')">
+                                        <i class="fas fa-vial me-2"></i>Probar Servicio
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Estadísticas del Sistema -->
+                        <div class="row mt-5 mb-4">
+                            <div class="col-12">
+                                <h3><i class="fas fa-chart-pie me-2"></i>Estadísticas del Sistema</h3>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <div class="stats-number" id="total-conversations">-</div>
+                                    <div class="text-muted">Conversaciones</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <div class="stats-number" id="total-appointments">-</div>
+                                    <div class="text-muted">Citas Agendadas</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <div class="stats-number" id="total-predictions">-</div>
+                                    <div class="text-muted">Predicciones</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card">
+                                    <div class="stats-number" id="webhook-messages">-</div>
+                                    <div class="text-muted">Mensajes Webhook</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Acciones Rápidas -->
+                        <div class="quick-actions mt-5">
+                            <h3><i class="fas fa-bolt me-2"></i>Acciones Rápidas</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <button class="btn btn-service" onclick="refreshAllStatus()">
+                                        <i class="fas fa-sync-alt me-2"></i>Actualizar Estado
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-service" onclick="downloadLogs()">
+                                        <i class="fas fa-download me-2"></i>Descargar Logs
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-service" onclick="openService('http://localhost:8000/docs')">
+                                        <i class="fas fa-book me-2"></i>Documentación API
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Monitor de Logs -->
+                        <div class="mt-5">
+                            <h3><i class="fas fa-terminal me-2"></i>Monitor de Sistema</h3>
+                            <div class="log-container" id="logContainer">
+                                <div>Sistema iniciado - Verificando servicios...</div>
+                                <div>Cargando panel de control...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

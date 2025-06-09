@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Predicción de Sentencias - Despacho Jurídico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .prediction-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px 0;
+        }
+
+        .prediction-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+
+        .form-section {
+            padding: 30px;
+        }
+
+        .result-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .probability-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            margin: 0 auto 20px;
+        }
+
+        .probability-high {
+            background: linear-gradient(135deg, var(--success-color), #2ecc71);
+        }
+
+        .probability-medium {
+            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+        }
+
+        .probability-low {
+            background: linear-gradient(135deg, var(--danger-color), #c0392b);
+        }
+
+        .risk-factor {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        .recommendation {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .evidence-tag {
+            background: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin: 2px;
+            display: inline-block;
+        }
+
+        .btn-predict {
+            background: linear-gradient(135deg, var(--secondary-color), #2980b9);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+            color: white;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="prediction-container">
+                    <!-- Header -->
+                    <div class="prediction-header">
+                        <h1><i class="fas fa-balance-scale"></i> Sistema de Predicción de Sentencias</h1>
+                        <p class="mb-0">Análisis inteligente de casos legales con IA</p>
+                    </div>
+
+                    <!-- Formulario de Predicción -->
+                    <div class="form-section">
+                        <form id="predictionForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            <i class="fas fa-gavel"></i> Tipo de Caso
+                                        </label>
+                                        <select class="form-select" id="tipoCaso" required>
+                                            <option value="">Seleccionar tipo de caso</option>
+                                            <option value="civil">Derecho Civil</option>
+                                            <option value="penal">Derecho Penal</option>
+                                            <option value="laboral">Derecho Laboral</option>
+                                            <option value="familia">Derecho de Familia</option>
+                                            <option value="comercial">Derecho Comercial</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            <i class="fas fa-signal"></i> Complejidad
+                                        </label>
+                                        <select class="form-select" id="complejidad" required>
+                                            <option value="baja">Baja</option>
+                                            <option value="media" selected>Media</option>
+                                            <option value="alta">Alta</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-file-alt"></i> Descripción del Caso
+                                </label>
+                                <textarea class="form-control" id="descripcion" rows="4" 
+                                    placeholder="Describe detalladamente el caso legal..." required></textarea>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            <i class="fas fa-dollar-sign"></i> Monto en Disputa
+                                        </label>
+                                        <input type="number" class="form-control" id="montoDisputa" 
+                                            placeholder="0" min="0">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            <i class="fas fa-map-marker-alt"></i> Jurisdicción
+                                        </label>
+                                        <select class="form-select" id="jurisdiccion">
+                                            <option value="civil">Civil</option>
+                                            <option value="penal">Penal</option>
+                                            <option value="laboral">Laboral</option>
+                                            <option value="familia">Familia</option>
+                                            <option value="comercial">Comercial</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-folder-open"></i> Evidencias Disponibles
+                                </label>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="contratos" id="evidencia1">
+                                            <label class="form-check-label" for="evidencia1">Contratos</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="testigos" id="evidencia2">
+                                            <label class="form-check-label" for="evidencia2">Testigos</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="documentos" id="evidencia3">
+                                            <label class="form-check-label" for="evidencia3">Documentos</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="correspondencia" id="evidencia4">
+                                            <label class="form-check-label" for="evidencia4">Correspondencia</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="peritajes" id="evidencia5">
+                                            <label class="form-check-label" for="evidencia5">Peritajes</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="fotografias" id="evidencia6">
+                                            <label class="form-check-label" for="evidencia6">Fotografías</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="videos" id="evidencia7">
+                                            <label class="form-check-label" for="evidencia7">Videos</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="facturas" id="evidencia8">
+                                            <label class="form-check-label" for="evidencia8">Facturas</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="otros" id="evidencia9">
+                                            <label class="form-check-label" for="evidencia9">Otros</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-history"></i> Antecedentes (Opcional)
+                                </label>
+                                <textarea class="form-control" id="antecedentes" rows="3" 
+                                    placeholder="Antecedentes relevantes del caso..."></textarea>
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-predict">
+                                    <i class="fas fa-magic"></i> Analizar Caso
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Loading -->
+                        <div class="loading-spinner" id="loadingSpinner">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Analizando...</span>
+                            </div>
+                            <p class="mt-2">Analizando caso con IA...</p>
+                        </div>
+
+                        <!-- Resultados -->
+                        <div class="result-section" id="resultSection">
+                            <h3 class="text-center mb-4">
+                                <i class="fas fa-chart-line"></i> Análisis de Predicción
+                            </h3>
+                            
+                            <div class="row">
+                                <div class="col-md-4 text-center">
+                                    <div class="probability-circle" id="probabilityCircle">
+                                        <span id="probabilityValue">0%</span>
+                                    </div>
+                                    <h5>Probabilidad de Éxito</h5>
+                                    <p class="text-muted" id="sentenceType">-</p>
+                                </div>
+                                
+                                <div class="col-md-4 text-center">
+                                    <div class="stats-card">
+                                        <h2 class="text-primary" id="estimatedTime">0</h2>
+                                        <p class="mb-0">Meses estimados</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 text-center">
+                                    <div class="stats-card">
+                                        <h2 class="text-success" id="confidenceLevel">0%</h2>
+                                        <p class="mb-0">Confianza</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <h5><i class="fas fa-exclamation-triangle text-warning"></i> Factores de Riesgo</h5>
+                                    <div id="riskFactors">
+                                        <!-- Se llenan dinámicamente -->
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h5><i class="fas fa-lightbulb text-info"></i> Recomendaciones</h5>
+                                    <div id="recommendations">
+                                        <!-- Se llenan dinámicamente -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="prediction.js"></script>
+</body>
+</html>

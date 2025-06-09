@@ -1,0 +1,34 @@
+# Configuración de Ngrok para Despacho Jurídico
+# Archivo: ngrok-config.yml
+# Uso: ngrok start --config=ngrok-config.yml --all
+
+version: "2"
+authtoken: YOUR_NGROK_AUTHTOKEN_HERE
+
+tunnels:
+  chatbot:
+    addr: 8000
+    proto: http
+    subdomain: despacho-chatbot
+    
+  webhooks:
+    addr: 8002
+    proto: http
+    subdomain: despacho-webhooks
+    
+  prediction:
+    addr: 8003
+    proto: http
+    subdomain: despacho-prediction
+    
+  gradio:
+    addr: 7860
+    proto: http
+    subdomain: despacho-ia
+
+# Configuración regional (opcional)
+region: us
+
+# Headers personalizados (opcional)
+headers:
+  X-Custom-Header: "Despacho-Juridico-Virtual"
