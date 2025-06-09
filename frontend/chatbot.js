@@ -105,8 +105,7 @@ function processMarkdown(text) {
     return text
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/\n/g, '<br>')
-        .replace(/•/g, '•');
+        .replace(/\n/g, '<br>');
 }
 
 /**
@@ -122,53 +121,50 @@ function escapeHtml(text) {
  * Mostrar sugerencias
  */
 function showSuggestions(suggestions) {
-    const suggestionsDiv = document.getElementById('suggestions');
-    suggestionsDiv.innerHTML = '';
+    const suggestionsContainer = document.getElementById('suggestions');
+    if (!suggestionsContainer) return;
+    
+    suggestionsContainer.innerHTML = '';
     
     suggestions.forEach(suggestion => {
-        const button = document.createElement('button');
-        button.className = 'suggestion-btn';
-        button.textContent = suggestion;
-        button.onclick = () => {
+        const chip = document.createElement('span');
+        chip.className = 'suggestion-chip';
+        chip.textContent = suggestion;
+        chip.onclick = () => {
             document.getElementById('messageInput').value = suggestion;
             sendMessage();
         };
-        suggestionsDiv.appendChild(button);
+        suggestionsContainer.appendChild(chip);
     });
-    
-    chatState.currentSuggestions = suggestions;
 }
 
 /**
  * Mostrar/ocultar indicador de escritura
  */
 function showTypingIndicator() {
-    document.getElementById('typingIndicator').classList.add('show');
+    const indicator = document.getElementById('typingIndicator');
+    if (indicator) {
+        indicator.classList.add('show');
+    }
 }
 
 function hideTypingIndicator() {
-    document.getElementById('typingIndicator').classList.remove('show');
+    const indicator = document.getElementById('typingIndicator');
+    if (indicator) {
+        indicator.classList.remove('show');
+    }
 }
 
 /**
  * Obtener ID único del usuario
  */
 function getUserId() {
-    let userId = localStorage.getItem('userId');
+    let userId = localStorage.getItem('user_id');
     if (!userId) {
         userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('userId', userId);
+        localStorage.setItem('user_id', userId);
     }
     return userId;
-}
-
-/**
- * Manejar tecla Enter en el input
- */
-function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-        sendMessage();
-    }
 }
 
 /**
@@ -176,32 +172,20 @@ function handleKeyPress(event) {
  */
 function initializeChat() {
     // Configurar fecha mínima para citas (mañana)
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const dateInput = document.getElementById('fecha');
-    if (dateInput) {
-        dateInput.min = tomorrow.toISOString().split('T')[0];
+    const fechaInput = document.getElementById('fecha');
+    if (fechaInput) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        fechaInput.min = tomorrow.toISOString().split('T')[0];
+        
+        // Fecha máxima: 3 meses después
+        const maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 3);
+        fechaInput.max = maxDate.toISOString().split('T')[0];
     }
-    
-    // Event listeners
-    document.getElementById('messageInput').addEventListener('keypress', handleKeyPress);
-    
-    // Mensajes predefinidos de inicio
-    const startMessages = [
-        "Ver servicios disponibles",
-        "Consultar costos",
-        "Agendar una cita",
-        "Información de contacto"
-    ];
-    
-    showSuggestions(startMessages);
-    
-    console.log('Chat inicializado correctamente');
 }
 
-/**
- * Funciones auxiliares para mensajes rápidos
- */
+// Funciones auxiliares para mensajes rápidos
 function askAboutServices() {
     document.getElementById('messageInput').value = "¿Qué servicios legales ofrecen?";
     sendMessage();
@@ -247,3 +231,116 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Función para manejar el evento de tecla Enter en el input del chat
+function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMessage();
+    }
+}
+
+// Función para mostrar el indicador de escritura
+function showTypingIndicator() {
+    const indicator = document.getElementById('typingIndicator');
+    if (indicator) {
+        indicator.classList.add('show');
+    }
+}
+
+// Función para ocultar el indicador de escritura
+function hideTypingIndicator() {
+    const indicator = document.getElementById('typingIndicator');
+    if (indicator) {
+        indicator.classList.remove('show');
+    }
+}
+
+// Función para mostrar sugerencias
+function showSuggestions(suggestions) {
+    const suggestionsContainer = document.getElementById('suggestions');
+    if (!suggestionsContainer) return;
+    
+    suggestionsContainer.innerHTML = '';
+    
+    suggestions.forEach(suggestion => {
+        const chip = document.createElement('span');
+        chip.className = 'suggestion-chip';
+        chip.textContent = suggestion;
+        chip.onclick = () => {
+            document.getElementById('messageInput').value = suggestion;
+            sendMessage();
+        };
+        suggestionsContainer.appendChild(chip);
+    });
+}
+
+// Función para procesar markdown básico
+function processMarkdown(text) {
+    return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+}
+
+// Función para escapar HTML
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Función para obtener ID único del usuario
+function getUserId() {
+    let userId = localStorage.getItem('user_id');
+    if (!userId) {
+        userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('user_id', userId);
+    }
+    return userId;
+}
+
+// Función para inicializar el chat
+function initializeChat() {
+    // Establecer fecha mínima para citas (mañana)
+    const fechaInput = document.getElementById('fecha');
+    if (fechaInput) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        fechaInput.min = tomorrow.toISOString().split('T')[0];
+        
+        // Fecha máxima: 3 meses después
+        const maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 3);
+        fechaInput.max = maxDate.toISOString().split('T')[0];
+    }
+}
+
+// Función para validar el formulario de cita
+function validateCitaForm() {
+    const form = document.getElementById('citaForm');
+    if (!form) return false;
+    
+    const requiredFields = form.querySelectorAll('[required]');
+    let isValid = true;
+    
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            field.classList.add('is-invalid');
+            isValid = false;
+        } else {
+            field.classList.remove('is-invalid');
+        }
+    });
+    
+    return isValid;
+}
+
+// Exponer funciones globalmente para uso en HTML
+window.sendMessage = sendMessage;
+window.handleKeyPress = handleKeyPress;
+window.askAboutServices = askAboutServices;
+window.askAboutCosts = askAboutCosts;
+window.askAboutContact = askAboutContact;
+window.requestAppointment = requestAppointment;
+window.scrollToSection = scrollToSection;

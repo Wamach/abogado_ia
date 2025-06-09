@@ -3,210 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abogados 3M - Despacho Jurídico Virtual con IA</title>
+    <title>Despacho Jurídico 3M - Especialistas en Derecho Mexicano</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #1e40af;
-            --secondary-color: #f8fafc;
-            --accent-color: #10b981;
-            --text-dark: #1f2937;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--secondary-color) 0%, #e2e8f0 100%);
-            min-height: 100vh;
-        }
-
-        .navbar {
-            background: var(--primary-color) !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #3b82f6 100%);
-            color: white;
-            padding: 4rem 0;
-            margin-bottom: 2rem;
-        }
-
-        .chat-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            overflow: hidden;
-            height: 600px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-header {
-            background: var(--primary-color);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-            background: #f8fafc;
-        }
-
-        .message {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .message.user {
-            justify-content: flex-end;
-        }
-
-        .message.bot {
-            justify-content: flex-start;
-        }
-
-        .message-content {
-            max-width: 70%;
-            padding: 0.75rem 1rem;
-            border-radius: 15px;
-            word-wrap: break-word;
-        }
-
-        .message.user .message-content {
-            background: var(--primary-color);
-            color: white;
-            border-bottom-right-radius: 5px;
-        }
-
-        .message.bot .message-content {
-            background: white;
-            color: var(--text-dark);
-            border: 1px solid #e5e7eb;
-            border-bottom-left-radius: 5px;
-        }
-
-        .chat-input {
-            padding: 1rem;
-            background: white;
-            border-top: 1px solid #e5e7eb;
-        }
-
-        .suggestions {
-            margin-top: 0.5rem;
-        }
-
-        .suggestion-btn {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            margin: 0.25rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .suggestion-btn:hover {
-            background: #059669;
-            transform: translateY(-1px);
-        }
-
-        .service-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .service-icon {
-            color: var(--primary-color);
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .cita-form {
-            background: white;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .btn-primary {
-            background: var(--primary-color);
-            border: var(--primary-color);
-            padding: 0.75rem 2rem;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: #1d4ed8;
-            transform: translateY(-2px);
-        }
-
-        .loading {
-            display: none;
-        }
-
-        .loading.show {
-            display: inline-block;
-        }
-
-        .typing-indicator {
-            display: none;
-            padding: 1rem;
-            color: #6b7280;
-            font-style: italic;
-        }
-
-        .typing-indicator.show {
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .hero-section {
-                padding: 2rem 0;
-            }
-            
-            .chat-container {
-                height: 500px;
-            }
-
-            .message-content {
-                max-width: 85%;
-            }
-        }
-    </style>
+    <link href="styles.css" rel="stylesheet">
 </head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">            <a class="navbar-brand" href="#">
+<body>    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
                 <i class="fas fa-balance-scale me-2"></i>
-                Abogados 3M
+                Despacho Jurídico 3M
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
-            </button>            <div class="collapse navbar-collapse" id="navbarNav">
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="#servicios">Servicios</a>
@@ -220,7 +32,8 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                             <i class="fas fa-robot"></i> IA Legal
-                        </a>                        <ul class="dropdown-menu">
+                        </a>
+                        <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="frontend/prediction.html">
                                 <i class="fas fa-chart-line"></i> Predicción de Sentencias
                             </a></li>
@@ -235,39 +48,45 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contacto">Contacto</a>
-                    </li>
-                </ul>
+                    </li>                </ul>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section">        <div class="container text-center">
+    <section class="hero-section">
+        <div class="container text-center">
             <h1 class="display-4 fw-bold mb-4">
                 <i class="fas fa-shield-alt me-3"></i>
-                Abogados 3M - Tu Defensa Legal
-            </h1>            <p class="lead mb-4">
-                Despacho jurídico especializado con más de 15 años de trayectoria defendiendo los derechos de nuestros clientes. 
-                Ofrecemos asesoría legal integral con tecnología de vanguardia y atención personalizada las 24 horas del día.
+                Despacho Jurídico 3M - Tu Defensa Legal en México
+            </h1>
+            <p class="lead mb-4">
+                Despacho jurídico especializado con más de 15 años de experiencia en el sistema legal mexicano. 
+                Ofrecemos asesoría legal integral con tecnología de vanguardia y atención personalizada las 24 horas del día, 
+                adaptada a las leyes federales y estatales de México.
             </p>
-            <div class="mb-4">                <span class="badge bg-light text-dark me-2 fs-6">
+            <div class="hero-badges mb-4">
+                <span class="badge">
                     <i class="fas fa-award me-1"></i>15+ Años de Experiencia
                 </span>
-                <span class="badge bg-light text-dark me-2 fs-6">
-                    <i class="fas fa-shield-check me-1"></i>Casos Ganados 95%
+                <span class="badge">
+                    <i class="fas fa-shield-check me-1"></i>Casos Ganados 98%
                 </span>
-                <span class="badge bg-light text-dark me-2 fs-6">
+                <span class="badge">
                     <i class="fas fa-clock me-1"></i>Atención 24/7
                 </span>
-                <span class="badge bg-light text-dark fs-6">
+                <span class="badge">
                     <i class="fas fa-handshake me-1"></i>Primera Consulta Gratuita
                 </span>
+                <span class="badge">
+                    <i class="fas fa-gavel me-1"></i>Colegio de Abogados
+                </span>
             </div>
-            <a href="#chat" class="btn btn-light btn-lg me-3">
+            <a href="#chat" class="btn btn-hero-primary">
                 <i class="fas fa-comments me-2"></i>
                 Consulta Inmediata
             </a>
-            <a href="#citas" class="btn btn-outline-light btn-lg">
+            <a href="#citas" class="btn btn-hero-outline">
                 <i class="fas fa-calendar-check me-2"></i>
                 Agendar Cita
             </a>
@@ -275,81 +94,89 @@
     </section>
 
     <div class="container">
-        <!-- Servicios Section -->        <section id="servicios" class="mb-5">
-            <h2 class="text-center mb-5 fw-bold">
+        <!-- Servicios Section -->
+        <section id="servicios" class="mb-5">
+            <h2 class="section-title">
                 <i class="fas fa-briefcase me-2"></i>
-                Nuestras Especialidades Legales
+                Nuestras Especialidades Legales en México
             </h2>
             <div class="row">
-                <div class="col-md-3 col-sm-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="service-card text-center">
-                        <i class="fas fa-handshake service-icon"></i>                        <h4>Derecho Civil</h4>
-                        <p>Contratos, responsabilidad civil, sucesiones, propiedad, daños y perjuicios, disputas comerciales.</p>
-                        <div class="mt-2">
-                            <span class="badge bg-primary">Desde $150.000</span>
-                            <span class="badge bg-success ms-1">Consulta Gratis</span>
+                        <i class="fas fa-handshake service-icon"></i>
+                        <h4>Derecho Civil</h4>
+                        <p>Contratos, responsabilidad civil, sucesiones, propiedad, daños y perjuicios según el Código Civil Federal y estatal mexicano.</p>
+                        <div class="service-badges">
+                            <span class="service-badge badge-price">Desde $2,500 MXN</span>
+                            <span class="service-badge badge-success">Consulta Gratis</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="service-card text-center">
-                        <i class="fas fa-gavel service-icon"></i>                        <h4>Derecho Penal</h4>
-                        <p>Defensa penal integral, delitos contra la propiedad, lesiones, hurto, estafa, narcotráfico.</p>
-                        <div class="mt-2">
-                            <span class="badge bg-primary">Desde $300.000</span>
-                            <span class="badge bg-warning text-dark ms-1">Urgencias 24h</span>
+                        <i class="fas fa-gavel service-icon"></i>
+                        <h4>Derecho Penal</h4>
+                        <p>Defensa penal integral, delitos del fuero común y federal, amparo, lesiones, robo, fraude, narcotráfico según CNPP.</p>
+                        <div class="service-badges">
+                            <span class="service-badge badge-price">Desde $5,000 MXN</span>
+                            <span class="service-badge badge-urgent">Urgencias 24h</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="service-card text-center">
-                        <i class="fas fa-users service-icon"></i>                        <h4>Derecho Laboral</h4>
-                        <p>Despidos injustificados, liquidaciones, acoso laboral, pensiones, prestaciones sociales.</p>
-                        <div class="mt-2">
-                            <span class="badge bg-primary">Desde $200.000</span>
-                            <span class="badge bg-info ms-1">Sin Cobro Inicial</span>
+                        <i class="fas fa-users service-icon"></i>
+                        <h4>Derecho Laboral</h4>
+                        <p>Despidos injustificados, liquidaciones, demandas IMSS, pensiones, prestaciones según la Ley Federal del Trabajo.</p>
+                        <div class="service-badges">
+                            <span class="service-badge badge-price">Desde $3,500 MXN</span>
+                            <span class="service-badge badge-feature">Sin Anticipo</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-4">
+                <div class="col-lg-3 col-md-6 mb-4">
                     <div class="service-card text-center">
-                        <i class="fas fa-heart service-icon"></i>                        <h4>Derecho de Familia</h4>
-                        <p>Divorcios, custodia infantil, alimentos, violencia intrafamiliar, adopciones, unión marital.</p>
-                        <div class="mt-2">
-                            <span class="badge bg-primary">Desde $250.000</span>
-                            <span class="badge bg-danger ms-1">Casos Urgentes</span>
+                        <i class="fas fa-heart service-icon"></i>
+                        <h4>Derecho Familiar</h4>
+                        <p>Divorcios, custodia, pensión alimenticia, violencia familiar, adopciones según Código Civil y Familiar mexicano.</p>
+                        <div class="service-badges">
+                            <span class="service-badge badge-price">Desde $4,000 MXN</span>
+                            <span class="service-badge badge-urgent">Casos Urgentes</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mt-4">
-                <div class="col-md-4 col-sm-6 mb-4">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
                     <div class="service-card text-center">
-                        <i class="fas fa-building service-icon"></i>                        <h4>Derecho Comercial</h4>
-                        <p>Constitución empresarial, contratos comerciales, cobro ejecutivo, sociedades, quiebras.</p>
-                        <div class="mt-2">
-                            <span class="badge bg-primary">Desde $180.000</span>
-                            <span class="badge bg-secondary ms-1">Empresarial</span>
+                        <i class="fas fa-building service-icon"></i>
+                        <h4>Derecho Mercantil</h4>
+                        <p>Constitución de sociedades, contratos mercantiles, concursos mercantiles, cobro ejecutivo, PROFECO.</p>
+                        <div class="service-badges">
+                            <span class="service-badge badge-price">Desde $3,000 MXN</span>
+                            <span class="service-badge badge-feature">Empresarial</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 mb-4">
+                <div class="col-lg-4 col-md-6 mb-4">
                     <div class="service-card text-center">
-                        <i class="fas fa-home service-icon"></i>                        <h4>Derecho Inmobiliario</h4>
-                        <p>Compraventa inmobiliaria, arrendamientos, desalojos, propiedad horizontal, registro.</p>
-                        <div class="mt-2">
-                            <span class="badge bg-primary">Desde $200.000</span>
-                            <span class="badge bg-dark ms-1">Inmobiliario</span>
+                        <i class="fas fa-home service-icon"></i>
+                        <h4>Derecho Inmobiliario</h4>
+                        <p>Compraventa, escrituración, registro público, desalojos, propiedad en condominio, INFONAVIT.</p>
+                        <div class="service-badges">
+                            <span class="service-badge badge-price">Desde $3,500 MXN</span>
+                            <span class="service-badge badge-feature">Notarial</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-6 mb-4">
+                <div class="col-lg-4 col-md-6 mb-4">
                     <div class="service-card text-center">
-                        <i class="fas fa-car service-icon"></i>                        <h4>Accidentes de Tránsito</h4>
-                        <p>Reclamaciones SOAT, seguros vehiculares, indemnizaciones, responsabilidad civil extracontractual.</p>
-                        <div class="mt-2">
-                            <span class="badge bg-primary">Desde $150.000</span>
-                            <span class="badge bg-warning text-dark ms-1">Sin Anticipo</span>
+                        <i class="fas fa-car service-icon"></i>
+                        <h4>Accidentes Viales</h4>
+                        <p>Reclamaciones a aseguradoras, responsabilidad civil, lesiones, daños materiales, peritajes viales.</p>
+                        <div class="service-badges">
+                            <span class="service-badge badge-price">Desde $2,500 MXN</span>
+                            <span class="service-badge badge-warning">Sin Anticipo</span>
                         </div>
                     </div>
                 </div>
@@ -358,33 +185,36 @@
 
         <!-- Chat Section -->
         <section id="chat" class="mb-5">
-            <div class="row">                <div class="col-lg-8 mx-auto">
-                    <h2 class="text-center mb-4 fw-bold">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <h2 class="section-title">
                         <i class="fas fa-robot me-2"></i>
                         Asistente Legal Virtual - Consulta Inmediata
-                    </h2>                    <div class="alert alert-info text-center mb-4">
+                    </h2>
+                    <div class="alert alert-info text-center mb-4">
                         <i class="fas fa-gift me-2"></i>
-                        <strong>¡Oferta especial!</strong> Primera consulta completamente GRATUITA. Nuestro asistente IA especializado está disponible las 24 horas para brindarte orientación legal profesional.
+                        <strong>¡Oferta especial!</strong> Primera consulta completamente GRATUITA. Nuestro asistente IA especializado en derecho mexicano está disponible las 24 horas.
                     </div>
                     <div class="chat-container">
                         <div class="chat-header">
                             <i class="fas fa-robot me-2"></i>
-                            Chat Legal Online
+                            Chat Legal Online - Especializado en Derecho Mexicano
                         </div>
-                        <div class="chat-messages" id="chatMessages">                            <div class="message bot">
-                                <div class="message-content">
-                                    <strong>⚖️ Abogados 3M - Asistente Legal Especializado</strong><br>
-                                    ¡Bienvenido a Abogados 3M! Somos un despacho jurídico líder con más de 15 años de experiencia y un 95% de casos exitosos. 
-                                    Nuestro equipo de abogados especializados está preparado para defender sus derechos en todas las áreas del derecho.
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message bot">
+                                <div class="message-content">                                    <strong>⚖️ Despacho Jurídico 3M - Asistente Legal Especializado en México</strong><br>
+                                    ¡Bienvenido a Despacho Jurídico 3M! Somos un despacho jurídico líder con más de 15 años de experiencia en el sistema legal mexicano y un 98% de casos exitosos.
+                                    Nuestro equipo de abogados certificados por el Colegio de Abogados está preparado para defender sus derechos bajo la legislación federal y estatal mexicana.
                                     <br><br>
-                                    <strong>🏆 Nuestras Garantías:</strong><br>
+                                    <strong>🏆 Nuestras Garantías en México:</strong><br>
                                     • Primera consulta completamente GRATUITA<br>
                                     • Atención especializada 24/7 los 365 días<br>
-                                    • Abogados certificados y con amplia experiencia<br>
-                                    • Tarifas transparentes y competitivas<br>
-                                    • Casos de urgencia atendidos inmediatamente<br><br>
-                                    <strong>📋 Especialidades disponibles:</strong> Civil, Penal, Laboral, Familia, Comercial, Inmobiliario, Accidentes<br><br>
-                                    ¿En qué podemos asesorarle legalmente hoy? Describa su situación y le brindaremos orientación profesional inmediata.
+                                    • Abogados colegiados con amplia experiencia<br>
+                                    • Tarifas competitivas en pesos mexicanos<br>
+                                    • Cobertura en toda la República Mexicana<br>
+                                    • Especialistas en derecho federal y local<br><br>
+                                    <strong>📋 Especialidades disponibles:</strong> Civil, Penal, Laboral, Familiar, Mercantil, Inmobiliario, Accidentes<br><br>
+                                    ¿En qué asunto legal mexicano podemos asesorarle hoy? Describa su situación y le brindaremos orientación profesional inmediata.
                                 </div>
                             </div>
                         </div>
@@ -410,16 +240,17 @@
 
         <!-- Citas Section -->
         <section id="citas" class="mb-5">
-            <div class="row">                <div class="col-lg-8 mx-auto">
-                    <h2 class="text-center mb-4 fw-bold">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <h2 class="section-title">
                         <i class="fas fa-calendar-alt me-2"></i>
                         Agenda tu Cita con Nuestros Especialistas
                     </h2>
                     <div class="alert alert-success text-center mb-4">
                         <i class="fas fa-gift me-2"></i>
-                        <strong>¡Primera consulta presencial GRATUITA!</strong> Agenda ahora y recibe asesoría profesional sin costo.
+                        <strong>¡Primera consulta presencial GRATUITA!</strong> Agenda ahora y recibe asesoría profesional sin costo en toda la República Mexicana.
                     </div>
-                    <div class="cita-form">
+                    <div class="form-container">
                         <form id="citaForm">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -427,49 +258,99 @@
                                     <input type="text" class="form-control" id="nombre" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="email" class="form-label">Email *</label>
+                                    <label for="email" class="form-label">Correo Electrónico *</label>
                                     <input type="email" class="form-control" id="email" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="telefono" class="form-label">Teléfono *</label>
-                                    <input type="tel" class="form-control" id="telefono" required>
+                                    <input type="tel" class="form-control" id="telefono" placeholder="+52 55 1234 5678" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="tipoServicio" class="form-label">Tipo de Consulta *</label>
-                                    <select class="form-control" id="tipoServicio" required>
-                                        <option value="">Seleccione un servicio</option>                                        <option value="civil">Derecho Civil - Contratos y Responsabilidad</option>
-                                        <option value="penal">Derecho Penal - Defensa Criminal</option>
-                                        <option value="laboral">Derecho Laboral - Despidos y Prestaciones</option>
-                                        <option value="familia">Derecho de Familia - Divorcios y Custodia</option>
-                                        <option value="comercial">Derecho Comercial - Empresarial</option>
-                                        <option value="inmobiliario">Derecho Inmobiliario - Propiedad</option>
-                                        <option value="accidentes">Accidentes de Tránsito - Indemnizaciones</option>
+                                    <label for="estado" class="form-label">Estado de México *</label>
+                                    <select class="form-select" id="estado" required>
+                                        <option value="">Seleccione su estado</option>
+                                        <option value="aguascalientes">Aguascalientes</option>
+                                        <option value="baja-california">Baja California</option>
+                                        <option value="baja-california-sur">Baja California Sur</option>
+                                        <option value="campeche">Campeche</option>
+                                        <option value="chiapas">Chiapas</option>
+                                        <option value="chihuahua">Chihuahua</option>
+                                        <option value="ciudad-de-mexico">Ciudad de México</option>
+                                        <option value="coahuila">Coahuila</option>
+                                        <option value="colima">Colima</option>
+                                        <option value="durango">Durango</option>
+                                        <option value="estado-de-mexico">Estado de México</option>
+                                        <option value="guanajuato">Guanajuato</option>
+                                        <option value="guerrero">Guerrero</option>
+                                        <option value="hidalgo">Hidalgo</option>
+                                        <option value="jalisco">Jalisco</option>
+                                        <option value="michoacan">Michoacán</option>
+                                        <option value="morelos">Morelos</option>
+                                        <option value="nayarit">Nayarit</option>
+                                        <option value="nuevo-leon">Nuevo León</option>
+                                        <option value="oaxaca">Oaxaca</option>
+                                        <option value="puebla">Puebla</option>
+                                        <option value="queretaro">Querétaro</option>
+                                        <option value="quintana-roo">Quintana Roo</option>
+                                        <option value="san-luis-potosi">San Luis Potosí</option>
+                                        <option value="sinaloa">Sinaloa</option>
+                                        <option value="sonora">Sonora</option>
+                                        <option value="tabasco">Tabasco</option>
+                                        <option value="tamaulipas">Tamaulipas</option>
+                                        <option value="tlaxcala">Tlaxcala</option>
+                                        <option value="veracruz">Veracruz</option>
+                                        <option value="yucatan">Yucatán</option>
+                                        <option value="zacatecas">Zacatecas</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="row">
+                            </div>                            <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="fecha" class="form-label">Fecha *</label>
+                                    <label for="tipoServicio" class="form-label">Área Legal *</label>
+                                    <select class="form-select" id="tipoServicio" required>
+                                        <option value="">Seleccione un área legal</option>
+                                        <option value="civil">Derecho Civil - Contratos y Responsabilidad</option>
+                                        <option value="penal">Derecho Penal - Defensa Criminal</option>
+                                        <option value="laboral">Derecho Laboral - IMSS y Prestaciones</option>
+                                        <option value="familiar">Derecho Familiar - Divorcios y Custodia</option>
+                                        <option value="mercantil">Derecho Mercantil - Empresarial</option>
+                                        <option value="inmobiliario">Derecho Inmobiliario - Propiedad</option>
+                                        <option value="accidentes">Accidentes Viales - Seguros</option>
+                                        <option value="urgente">Caso Urgente (24h)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="fecha" class="form-label">Fecha Preferida *</label>
                                     <input type="date" class="form-control" id="fecha" required min="">
                                 </div>
+                            </div>                            <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="hora" class="form-label">Hora *</label>
-                                    <select class="form-control" id="hora" required>
+                                    <label for="hora" class="form-label">Horario Preferido *</label>
+                                    <select class="form-select" id="hora" required>
                                         <option value="">Seleccione una hora</option>
+                                        <option value="09:00">09:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="13:00">01:00 PM</option>
+                                        <option value="14:00">02:00 PM</option>
+                                        <option value="15:00">03:00 PM</option>
+                                        <option value="16:00">04:00 PM</option>
+                                        <option value="17:00">05:00 PM</option>
+                                        <option value="18:00">06:00 PM</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripción de su caso (opcional)</label>
-                                <textarea class="form-control" id="descripcion" rows="3" 
-                                         placeholder="Breve descripción de su situación legal..."></textarea>
+                                <div class="col-md-6 mb-3">
+                                    <label for="descripcion" class="form-label">Descripción de su caso legal (opcional)</label>
+                                    <textarea class="form-control" id="descripcion" rows="4" 
+                                             placeholder="Breve descripción de su situación legal en México..."></textarea>
+                                </div>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-lg">
                                     <i class="fas fa-calendar-check me-2"></i>
-                                    Agendar Cita
+                                    Agendar Cita Gratuita
                                     <span class="loading" id="loadingCita">
                                         <i class="fas fa-spinner fa-spin ms-2"></i>
                                     </span>
@@ -478,64 +359,65 @@
                         </form>
                     </div>
                 </div>
-            </div>        </section>
+            </div>
+        </section>
 
         <!-- Testimonials and Credentials Section -->
         <section id="testimonios" class="mb-5">
-            <h2 class="text-center mb-5 fw-bold">
+            <h2 class="section-title">
                 <i class="fas fa-star me-2"></i>
                 Testimonios y Credenciales
             </h2>
             <div class="row mb-4">
-                <div class="col-md-4 mb-3">
-                    <div class="service-card text-center">
+                <div class="col-lg-4 mb-3">
+                    <div class="testimonial-card">
                         <i class="fas fa-quote-left service-icon"></i>
-                        <p class="fst-italic">"Excelente atención y profesionalismo. Lograron resolver mi caso laboral en tiempo récord."</p>
-                        <small class="text-muted">- María González, Cliente satisfecha</small>
+                        <p class="testimonial-quote">"Excelente atención y conocimiento del derecho laboral mexicano. Recuperé mis prestaciones de ley en tiempo récord."</p>
+                        <div class="testimonial-author">- María González, CDMX</div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="service-card text-center">
+                <div class="col-lg-4 mb-3">
+                    <div class="testimonial-card">
                         <i class="fas fa-quote-left service-icon"></i>
-                        <p class="fst-italic">"El mejor despacho jurídico de Bogotá. Me ayudaron con mi divorcio de manera muy profesional."</p>
-                        <small class="text-muted">- Carlos Rodríguez, Cliente</small>
+                        <p class="testimonial-quote">"Me ayudaron con mi divorcio conforme al Código Civil de Jalisco. Muy profesionales y transparentes."</p>
+                        <div class="testimonial-author">- Carlos Rodríguez, Guadalajara</div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <div class="service-card text-center">
+                <div class="col-lg-4 mb-3">
+                    <div class="testimonial-card">
                         <i class="fas fa-quote-left service-icon"></i>
-                        <p class="fst-italic">"Atención 24/7 real. Me atendieron una emergencia penal un domingo en la madrugada."</p>
-                        <small class="text-muted">- Ana Martínez, Cliente</small>
+                        <p class="testimonial-quote">"Atención inmediata para mi caso penal. Conocen perfectamente el sistema acusatorio mexicano."</p>
+                        <div class="testimonial-author">- Ana Martínez, Monterrey</div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-3 col-sm-6 mb-3">
-                    <div class="service-card text-center">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="testimonial-card">
                         <i class="fas fa-medal service-icon text-warning"></i>
                         <h6>Colegio de Abogados</h6>
                         <p class="small">Miembros activos certificados</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-3">
-                    <div class="service-card text-center">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="testimonial-card">
                         <i class="fas fa-university service-icon text-primary"></i>
-                        <h6>Consejo Superior</h6>
+                        <h6>Barra Mexicana</h6>
                         <p class="small">Registro profesional vigente</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-3">
-                    <div class="service-card text-center">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="testimonial-card">
                         <i class="fas fa-chart-line service-icon text-success"></i>
-                        <h6>95% Casos Exitosos</h6>
+                        <h6>98% Casos Exitosos</h6>
                         <p class="small">Estadística comprobada</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-3">
-                    <div class="service-card text-center">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="testimonial-card">
                         <i class="fas fa-users service-icon text-info"></i>
-                        <h6>1000+ Clientes</h6>
-                        <p class="small">Satisfechos en 15 años</p>
+                        <h6>1500+ Clientes</h6>
+                        <p class="small">En toda la República</p>
                     </div>
                 </div>
             </div>
@@ -543,70 +425,73 @@
 
         <!-- Contacto Section -->
         <section id="contacto" class="mb-5">
-            <h2 class="text-center mb-4 fw-bold">
+            <h2 class="section-title">
                 <i class="fas fa-phone me-2"></i>
                 Información de Contacto
             </h2>
-            <div class="row">                <div class="col-md-3 col-sm-6 mb-3">
-                    <div class="service-card text-center">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="contact-card">
                         <i class="fas fa-map-marker-alt service-icon"></i>
                         <h5>Oficina Principal</h5>
-                        <p><strong>Abogados 3M</strong><br>
-                        Carrera 11 #93-25, Oficina 501<br>
-                        Bogotá D.C., Colombia</p>
+                        <p><strong>Despacho Jurídico 3M</strong><br>
+                        Av. Camino Real, #3309<br>
+                        Col. Camino Real<br>
+                        Guadalupe, Nuevo Leon 67170</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-3">
-                    <div class="service-card text-center">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="contact-card">
                         <i class="fas fa-phone service-icon"></i>
                         <h5>Contacto Directo</h5>
-                        <p><strong>Línea Principal:</strong> +57 (1) 618-7450<br>
-                        <strong>WhatsApp Urgencias:</strong> 316 425-8796<br>
-                        <strong>Celular:</strong> 300 123-4567</p>
+                        <p><strong>Línea Principal:</strong><br>+52 55 1234-5678<br>
+                        <strong>WhatsApp:</strong><br>+52 55 8765-4321<br>
+                        <strong>Urgencias 24h:</strong><br>+52 55 9999-0000</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-3">
-                    <div class="service-card text-center">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="contact-card">
                         <i class="fas fa-envelope service-icon"></i>
-                        <h5>Correo Electrónico</h5>
-                        <p><strong>General:</strong> info@abogados3m.com<br>
-                        <strong>Urgencias:</strong> urgencias@abogados3m.com<br>
-                        <strong>Citas:</strong> citas@abogados3m.com</p>
+                        <h5>Correo Electrónico</h5>                        <p><strong>General:</strong><br>info@despachojuridico3m.mx<br>
+                        <strong>Urgencias:</strong><br>urgencias@despachojuridico3m.mx<br>
+                        <strong>Citas:</strong><br>citas@despachojuridico3m.mx</p>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 mb-3">
-                    <div class="service-card text-center">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="contact-card">
                         <i class="fas fa-clock service-icon"></i>
                         <h5>Horarios de Atención</h5>
-                        <p><strong>Oficina:</strong> Lun-Vie 8:00 AM - 6:00 PM<br>
-                        <strong>Sábados:</strong> 9:00 AM - 1:00 PM<br>
-                        <strong>Chat IA:</strong> 24/7 - 365 días</p>
+                        <p><strong>Oficina:</strong><br>Lun-Vie 9:00 AM - 7:00 PM<br>
+                        <strong>Sábados:</strong><br>10:00 AM - 2:00 PM<br>
+                        <strong>Chat IA:</strong><br>24/7 - 365 días</p>
                     </div>
                 </div>
             </div>
         </section>
-    </div>    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-4 mt-5">
+    </div>
+
+    <!-- Footer -->
+    <footer>
         <div class="container">
             <div class="row">
-                <div class="col-md-6 text-start">
-                    <h5><i class="fas fa-balance-scale me-2"></i>Abogados 3M</h5>
-                    <p class="small mb-0">Despacho Jurídico Especializado</p>
+                <div class="col-md-6 text-start">                    <h5><i class="fas fa-balance-scale me-2"></i>Despacho Jurídico 3M</h5>
+                    <p class="small mb-0">Especialistas en Derecho Mexicano</p>
                     <p class="small text-muted">Más de 15 años defendiendo sus derechos</p>
                 </div>
                 <div class="col-md-6 text-end">
-                    <p class="mb-0">© 2025 Abogados 3M. Todos los derechos reservados.</p>
-                    <p class="small text-muted">Bogotá D.C., Colombia | Reg. Prof: 123456789</p>
+                    <p class="mb-0">© 2025 Despacho Jurídico 3M. Todos los derechos reservados.</p>
+                    <p class="small text-muted">Nuevo Leon, México | Cédula Prof: 1234567</p>
                 </div>
             </div>
             <hr class="my-3">
             <div class="row">
-                <div class="col-12">
-                    <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="text-white me-3"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-white"><i class="fab fa-whatsapp"></i></a>
+                <div class="col-12 text-center">
+                    <a href="#" class="me-3"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
         </div>

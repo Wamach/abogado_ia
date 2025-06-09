@@ -157,7 +157,67 @@ async function handleCitaSubmit(event) {
 }
 
 /**
- * Validar datos de la cita
+ * Función para formatear tiempo en formato 12 horas
+ */
+function formatTime(timeString) {
+    const [hours, minutes] = timeString.split(':');
+    const hour = parseInt(hours);
+    const period = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+    return `${displayHour}:${minutes} ${period}`;
+}
+
+/**
+ * Función para mostrar alertas
+ */
+function showAlert(message, type = 'info') {
+    // Remover alertas existentes
+    const existingAlerts = document.querySelectorAll('.dynamic-alert');
+    existingAlerts.forEach(alert => alert.remove());
+    
+    // Crear nueva alerta
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type === 'error' ? 'danger' : type} dynamic-alert`;
+    alertDiv.innerHTML = `
+        <i class="fas fa-${getAlertIcon(type)} me-2"></i>
+        ${message}
+        <button type="button" class="btn-close" aria-label="Close" onclick="this.parentElement.remove()"></button>
+    `;
+    
+    // Insertar después del título de la sección de citas
+    const citasSection = document.getElementById('citas');
+    const sectionTitle = citasSection.querySelector('.section-title');
+    if (sectionTitle) {
+        sectionTitle.insertAdjacentElement('afterend', alertDiv);
+    }
+    
+    // Auto-remover después de 10 segundos
+    setTimeout(() => {
+        if (alertDiv.parentElement) {
+            alertDiv.remove();
+        }
+    }, 10000);
+    
+    // Scroll a la alerta
+    alertDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/**
+ * Obtener icono para alerta según el tipo
+ */
+function getAlertIcon(type) {
+    switch (type) {
+        case 'success': return 'check-circle';
+        case 'error':
+        case 'danger': return 'exclamation-triangle';
+        case 'warning': return 'exclamation-circle';
+        case 'info':
+        default: return 'info-circle';
+    }
+}
+
+/**
+ * Validar datos del formulario de cita
  */
 function validateCitaData(data) {
     const errors = [];
@@ -170,23 +230,16 @@ function validateCitaData(data) {
         errors.push('Debe proporcionar un email válido');
     }
     
-    if (!data.telefono || data.telefono.length < 7) {
+    if (!data.telefono || data.telefono.length < 10) {
         errors.push('Debe proporcionar un teléfono válido');
     }
     
-    if (!data.fecha || !data.fecha.includes(' ')) {
-        errors.push('Debe seleccionar fecha y hora');
+    if (!data.fecha) {
+        errors.push('Debe seleccionar una fecha y hora');
     }
     
     if (!data.tipo_servicio) {
-        errors.push('Debe seleccionar el tipo de servicio');
-    }
-    
-    // Validar que la fecha sea futura
-    const citaDate = new Date(data.fecha);
-    const now = new Date();
-    if (citaDate <= now) {
-        errors.push('La fecha de la cita debe ser futura');
+        errors.push('Debe seleccionar un tipo de servicio');
     }
     
     if (errors.length > 0) {
@@ -198,7 +251,7 @@ function validateCitaData(data) {
 }
 
 /**
- * Validar email
+ * Validar formato de email
  */
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -206,123 +259,72 @@ function isValidEmail(email) {
 }
 
 /**
- * Formatear hora para mostrar
- */
-function formatTime(timeString) {
-    const [hours, minutes] = timeString.split(':');
-    const hour24 = parseInt(hours);
-    const ampm = hour24 >= 12 ? 'PM' : 'AM';
-    const hour12 = hour24 % 12 || 12;
-    return `${hour12}:${minutes} ${ampm}`;
-}
-
-/**
- * Formatear fecha y hora completa
+ * Formatear fecha y hora para mostrar
  */
 function formatDateTime(dateTimeString) {
     const date = new Date(dateTimeString);
-    const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
+    const options = { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: '2-digit', 
         minute: '2-digit',
-        hour12: true
+        timeZone: 'America/Mexico_City'
     };
-    return date.toLocaleDateString('es-ES', options);
+    return date.toLocaleDateString('es-MX', options);
 }
 
 /**
- * Obtener nombre del servicio
+ * Obtener nombre del servicio por valor
  */
-function getServiceName(serviceCode) {
-    const services = {
+function getServiceName(serviceValue) {
+    const serviceNames = {
         'civil': 'Derecho Civil',
         'penal': 'Derecho Penal',
         'laboral': 'Derecho Laboral',
-        'familia': 'Derecho de Familia'
+        'familiar': 'Derecho Familiar',
+        'mercantil': 'Derecho Mercantil',
+        'inmobiliario': 'Derecho Inmobiliario',
+        'accidentes': 'Accidentes Viales',
+        'urgente': 'Caso Urgente (24h)'
     };
-    return services[serviceCode] || serviceCode;
+    return serviceNames[serviceValue] || serviceValue;
 }
 
 /**
- * Mostrar alertas/notificaciones
+ * Función para manejar errores de red
  */
-function showAlert(message, type = 'info') {
-    // Crear elemento de alerta
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'warning'} alert-dismissible fade show position-fixed`;
-    alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 1050; max-width: 400px;';
+function handleNetworkError(error) {
+    console.error('Error de red:', error);
     
-    // Icono según tipo
-    const iconClass = type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle';
-    
-    alertDiv.innerHTML = `
-        <i class="fas fa-${iconClass} me-2"></i>
-        <span>${message.replace(/\n/g, '<br>')}</span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    
-    document.body.appendChild(alertDiv);
-    
-    // Auto remover después de 5 segundos
-    setTimeout(() => {
-        if (alertDiv.parentNode) {
-            alertDiv.remove();
-        }
-    }, 5000);
-}
-
-/**
- * Cargar citas existentes (para admin)
- */
-async function loadCitas() {
-    try {
-        const response = await fetch(`${CITAS_API_URL}/citas`);
-        
-        if (!response.ok) {
-            throw new Error('Error cargando citas');
-        }
-        
-        const data = await response.json();
-        return data.citas;
-        
-    } catch (error) {
-        console.error('Error cargando citas:', error);
-        return [];
+    if (error.message.includes('Failed to fetch')) {
+        showAlert(
+            'No se puede conectar con el servidor. Por favor verifique su conexión a internet y que el servidor esté ejecutándose.',
+            'error'
+        );
+    } else {
+        showAlert('Ha ocurrido un error inesperado. Por favor intente nuevamente.', 'error');
     }
 }
 
 /**
- * Funciones de utilidad para integración con chat
+ * Función para actualizar estado del formulario
  */
-function preSelectServiceFromChat(serviceType) {
-    const serviceSelect = document.getElementById('tipoServicio');
-    if (serviceSelect) {
-        serviceSelect.value = serviceType;
+function updateFormState(isLoading = false) {
+    const form = document.getElementById('citaForm');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const loadingIcon = document.getElementById('loadingCita');
+    
+    if (isLoading) {
+        submitBtn.disabled = true;
+        loadingIcon.classList.add('show');
+        form.style.opacity = '0.7';
+    } else {
+        submitBtn.disabled = false;
+        loadingIcon.classList.remove('show');
+        form.style.opacity = '1';
     }
-    
-    // Scroll a la sección de citas
-    document.getElementById('citas').scrollIntoView({ behavior: 'smooth' });
 }
-
-function populateFormFromChat(data) {
-    if (data.nombre) document.getElementById('nombre').value = data.nombre;
-    if (data.email) document.getElementById('email').value = data.email;
-    if (data.telefono) document.getElementById('telefono').value = data.telefono;
-    if (data.tipo_servicio) document.getElementById('tipoServicio').value = data.tipo_servicio;
-    if (data.descripcion) document.getElementById('descripcion').value = data.descripcion;
-}
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', function() {
-    initializeCitas();
-    
-    // Agregar funciones globales para uso desde el chat
-    window.preSelectServiceFromChat = preSelectServiceFromChat;
-    window.populateFormFromChat = populateFormFromChat;
-    window.loadAvailableHours = loadAvailableHours;
-});
 
 // Export para uso en otros módulos
 if (typeof module !== 'undefined' && module.exports) {
@@ -334,3 +336,13 @@ if (typeof module !== 'undefined' && module.exports) {
         getServiceName
     };
 }
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCitas();
+    
+    // Agregar funciones globales para uso desde el chat
+    window.preSelectServiceFromChat = preSelectServiceFromChat;
+    window.populateFormFromChat = populateFormFromChat;
+    window.loadAvailableHours = loadAvailableHours;
+});
